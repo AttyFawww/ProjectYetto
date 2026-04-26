@@ -7,14 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Quicksand', sans-serif; min-height: 100vh; background: linear-gradient(-45deg, #a2dff6, #e0f7fa, #ffdee9, #b3e5fc); background-size: 400% 400%; animation: gradient 15s ease infinite; }
+        body { margin: 0; font-family: 'Quicksand', sans-serif; min-height: 100vh; background: linear-gradient(-45deg, #a2dff6, #e0f7fa, #ffdee9, #b3e5fc); background-size: 400% 400%; animation: gradient 15s ease infinite; display: flex; }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; gap: 10px; padding: 15px; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .navbar button { background: rgba(255, 255, 255, 0.9); color: #4a90e2; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-        .navbar button:hover { background: #4a90e2; color: white; transform: translateY(-2px); }
+        /* Sidebar Styling */
+        .sidebar { position: fixed; left: 0; top: 0; width: 180px; height: 100vh; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); display: none; flex-direction: column; padding: 20px 10px; gap: 10px; z-index: 1000; box-shadow: 2px 0 15px rgba(0,0,0,0.1); }
+        .sidebar button { background: rgba(255, 255, 255, 0.9); color: #4a90e2; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease; text-align: left; }
+        .sidebar button:hover { background: #4a90e2; color: white; }
         
-        .page { display: none; min-height: 100vh; padding: 100px 20px 40px; opacity: 0; transition: opacity 0.5s ease; }
+        /* Content area adjustments */
+        .page { display: none; min-height: 100vh; padding: 40px 20px; opacity: 0; transition: opacity 0.5s ease; width: 100%; margin-left: 180px; }
+        
+        /* Mobile adjustment */
+        @media (max-width: 600px) {
+            .sidebar { width: 60px; padding: 20px 5px; }
+            .sidebar button { font-size: 0; padding: 12px 5px; text-align: center; }
+            .page { margin-left: 60px; }
+        }
+
         .container { max-width: 600px; margin: 0 auto; text-align: center; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         input { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #b3e5fc; margin-bottom: 20px; }
         button { width: 100%; padding: 15px; border-radius: 15px; border: none; background: #87ccef; color: white; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
@@ -29,7 +39,7 @@
 </head>
 <body>
 
-<div class="navbar" id="navbar">
+<div class="sidebar" id="navbar">
     <button onclick="showPage('lovePage')">💌 Letter</button>
     <button onclick="showPage('galleryPage')">📸 Gallery</button>
     <button onclick="showPage('timerPage')">⏳ Timer</button>
@@ -43,7 +53,7 @@
     <img id="modalImg" src="">
 </div>
 
-<div class="page" id="loginPage" style="display:block; opacity:1;">
+<div class="page" id="loginPage" style="display:block; opacity:1; margin-left: 0;">
     <div class="container">
         <h1>Welcome to Our Safe Place</h1>
         <h3>Enter Password</h3>
@@ -66,7 +76,7 @@
     <div class="container">
         <h1>Picture to Remember</h1>
         <div class="gallery-grid">
-        <img src="1.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+             <img src="1.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="2.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="3.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="4.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
@@ -153,9 +163,7 @@
         <input type="text" id="occasionInput" placeholder="What are we counting down to?" oninput="saveTimerData()">
         <input type="datetime-local" id="targetDateInput" onchange="saveTimerData()">
         <button onclick="resetTimer()" style="background: #ff8a80;">Reset Timer</button>
-        <div id="timerDisplay" style="font-size: 1.5rem; font-weight: bold; margin-top: 20px; color: #4a90e2; font-variant-numeric: tabular-nums;">
-            Set a date and occasion!
-        </div>
+        <div id="timerDisplay" style="font-size: 1.5rem; font-weight: bold; margin-top: 20px; color: #4a90e2;">Set a date!</div>
     </div>
 </div>
 
@@ -163,8 +171,8 @@
     <div class="container">
         <h1>World Time 🕒</h1>
         <div id="clockDisplay" style="font-size: 1.3rem; line-height: 2.5; font-weight: 600;">
-            <p>🇵🇭 <b>Philippines (faw):</b><br><span id="phTime" style="color:#4a90e2;"></span></p>
-            <p>🇨🇦 <b>Saskatchewan (Nuriko):</b><br><span id="skTime" style="color:#ff8a80;"></span></p>
+            <p>🇵🇭 <b>Philippines:</b><br><span id="phTime"></span></p>
+            <p>🇨🇦 <b>Saskatchewan:</b><br><span id="skTime"></span></p>
         </div>
     </div>
 </div>
@@ -172,11 +180,7 @@
 <div class="page" id="schedulePage">
     <div class="container">
         <h1>Our Daily Schedules 🗓️</h1>
-        <div class="padlet-embed" style="border:1px solid rgba(0,0,0,0.1);border-radius:2px;box-sizing:border-box;overflow:hidden;position:relative;width:100%;background:#F4F4F4">
-            <p style="padding:0;margin:0">
-                <iframe src="https://padlet.com/embed/a031gmw4f09az08q" frameborder="0" allow="camera;microphone;geolocation;display-capture;clipboard-write" style="width:100%;height:608px;display:block;padding:0;margin:0"></iframe>
-            </p>
-        </div>
+        <iframe src="https://padlet.com/embed/a031gmw4f09az08q" width="100%" height="500px" frameborder="0"></iframe>
     </div>
 </div>
 
@@ -195,8 +199,6 @@
 </div>
 
 <script>
-    let timerInterval;
-
     function checkPassword() {
         if (document.getElementById("password").value === "070815") {
             document.getElementById("loginPage").style.display = "none";
@@ -206,78 +208,13 @@
     }
     
     function showPage(id) {
-        if (document.getElementById("navbar").style.display === "none") return;
         document.querySelectorAll(".page").forEach(p => { p.style.display = "none"; p.style.opacity = "0"; });
         const target = document.getElementById(id);
         if(target) { target.style.display = "block"; setTimeout(() => { target.style.opacity = "1"; }, 50); }
     }
 
-    function zoomImg(src) {
-        if(!src || src.endsWith('/')) return;
-        document.getElementById("modalImg").src = src;
-        document.getElementById("modal").style.display = "flex";
-    }
-
-    // --- CLOCK LOGIC ---
-    function updateClocks() {
-        const ph = new Intl.DateTimeFormat('en-PH', { timeZone: 'Asia/Manila', timeStyle: 'medium' }).format(new Date());
-        const sk = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Regina', timeStyle: 'medium' }).format(new Date());
-        if(document.getElementById("phTime")) {
-            document.getElementById("phTime").innerText = ph;
-            document.getElementById("skTime").innerText = sk;
-        }
-    }
-    setInterval(updateClocks, 1000);
-
-    // --- TIMER LOGIC ---
-    function saveTimerData() { 
-        localStorage.setItem("targetDate", document.getElementById("targetDateInput").value); 
-        localStorage.setItem("occasionName", document.getElementById("occasionInput").value);
-        startTimer(); 
-    }
-
-    function resetTimer() {
-        clearInterval(timerInterval);
-        localStorage.removeItem("targetDate");
-        localStorage.removeItem("occasionName");
-        document.getElementById("targetDateInput").value = "";
-        document.getElementById("occasionInput").value = "";
-        document.getElementById("timerDisplay").innerText = "Set a date and occasion!";
-    }
-
-    function startTimer() {
-        if (timerInterval) clearInterval(timerInterval);
-        const targetStr = localStorage.getItem("targetDate");
-        const occasion = localStorage.getItem("occasionName") || "Our special day";
-        if (!targetStr) return;
-        timerInterval = setInterval(() => {
-            const target = new Date(targetStr).getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
-            if (diff <= 0) {
-                document.getElementById("timerDisplay").innerText = `${occasion} is here!`;
-                clearInterval(timerInterval);
-                return;
-            }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("timerDisplay").innerHTML = `<div>${occasion}</div><div style="font-size: 2.5rem;">${d}d ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s</div>`;
-        }, 1000);
-    }
-    
-    window.onload = () => { 
-        if (localStorage.getItem("targetDate")) { 
-            document.getElementById("targetDateInput").value = localStorage.getItem("targetDate");
-            document.getElementById("occasionInput").value = localStorage.getItem("occasionName") || "";
-            startTimer(); 
-        } 
-        updateClocks();
-    };
-
     function openLetter() { 
-        document.getElementById("envelope").style.display = "none"; 
+          document.getElementById("envelope").style.display = "none"; 
         document.getElementById("letterContent").style.display = "block"; 
         const msg = "Hi pre? Babi? Baby? Yettobels? Nuricakes, bro? Boi? HAHAHAHA\n\n" +
                     "Hiii mahal ko, I am writing this letter for you to read before ikaw mag depart sa Philippines. From this day forward I want you to be strong okay?\n\n" +
