@@ -17,17 +17,17 @@
         
         .page { display: none; min-height: 100vh; padding: 40px 20px; opacity: 0; transition: opacity 0.5s ease; width: 100%; margin-left: 180px; }
         
+        /* Updated Mobile view: Force text visibility */
         @media (max-width: 600px) {
-            .sidebar { width: 60px; padding: 20px 5px; }
-            .sidebar button { font-size: 0; padding: 12px 5px; text-align: center; }
-            .page { margin-left: 60px; }
+            .sidebar { width: 100px !important; padding: 10px 5px; }
+            .sidebar button { font-size: 11px !important; padding: 8px 2px !important; text-align: center; display: block !important; } 
+            .page { margin-left: 100px !important; }
         }
 
         .container { max-width: 600px; margin: 0 auto; text-align: center; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         input { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #b3e5fc; margin-bottom: 20px; }
         button { width: 100%; padding: 15px; border-radius: 15px; border: none; background: #87ccef; color: white; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         
-        /* 3x3 Gallery Grid Adjustment */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
         .gallery-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.3s ease; }
         .gallery-grid img:hover { transform: scale(1.05); }
@@ -71,6 +71,7 @@
     <div class="container">
         <h1>Picture to Remember</h1>
         <div class="gallery-grid" id="galleryGrid"></div>
+         <div class="gallery-grid" id="galleryGrid"></div>
         <img src="1.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="2.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="3.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
@@ -165,8 +166,8 @@
     <div class="container">
         <h1>World Time 🕒</h1>
         <div style="font-size: 1.3rem; line-height: 2.5; font-weight: 600;">
-            <p>🇵🇭 <b>Philippines (faw):</b><br><span id="phTime" style="color: skyblue;"></span></p>
-            <p>🇨🇦 <b>Saskatchewan (nuriko):</b><br><span id="skTime" style="color: deeppink;"></span></p>
+            <p>🇵🇭 <b>Philippines:</b><br><span id="phTime" style="color: skyblue;"></span></p>
+            <p>🇨🇦 <b>Saskatchewan:</b><br><span id="skTime" style="color: deeppink;"></span></p>
         </div>
     </div>
 </div>
@@ -227,12 +228,16 @@
         type(); 
     }
 
-    // Auto-populate gallery grid
+    function zoomImg(src) {
+        document.getElementById("modalImg").src = src;
+        document.getElementById("modal").style.display = "flex";
+    }
+
     const galleryGrid = document.getElementById("galleryGrid");
     for(let i = 1; i <= 78; i++) {
         const img = document.createElement("img");
-        img.src = (i <= 35 || i >= 49 && i <= 49 || i >= 77) ? `${i}.jpg` : `${i}.jpeg`;
-        img.onerror = () => img.style.display = 'none'; // Hide if file missing
+        img.src = (i <= 35 || (i >= 49 && i <= 49) || i >= 77) ? `${i}.jpg` : `${i}.jpeg`;
+        img.onerror = () => img.style.display = 'none'; 
         img.onclick = () => zoomImg(img.src);
         galleryGrid.appendChild(img);
     }
