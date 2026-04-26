@@ -15,10 +15,8 @@
         .sidebar button { background: rgba(255, 255, 255, 0.9); color: #4a90e2; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease; text-align: left; }
         .sidebar button:hover { background: #4a90e2; color: white; }
         
-        /* Content area adjustments */
         .page { display: none; min-height: 100vh; padding: 40px 20px; opacity: 0; transition: opacity 0.5s ease; width: 100%; margin-left: 180px; }
         
-        /* Mobile adjustment */
         @media (max-width: 600px) {
             .sidebar { width: 60px; padding: 20px 5px; }
             .sidebar button { font-size: 0; padding: 12px 5px; text-align: center; }
@@ -29,8 +27,9 @@
         input { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #b3e5fc; margin-bottom: 20px; }
         button { width: 100%; padding: 15px; border-radius: 15px; border: none; background: #87ccef; color: white; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-        .gallery-grid img { width: 100%; height: 120px; object-fit: cover; border-radius: 15px; cursor: pointer; transition: transform 0.3s ease; }
+        /* 3x3 Gallery Grid Adjustment */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .gallery-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.3s ease; }
         .gallery-grid img:hover { transform: scale(1.05); }
         
         #modal { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; cursor: zoom-out; }
@@ -49,14 +48,11 @@
     <button onclick="showPage('messageBoardPage')">💬 Messages</button>
 </div>
 
-<div id="modal" onclick="this.style.display='none'">
-    <img id="modalImg" src="">
-</div>
+<div id="modal" onclick="this.style.display='none'"><img id="modalImg" src=""></div>
 
 <div class="page" id="loginPage" style="display:block; opacity:1; margin-left: 0;">
     <div class="container">
         <h1>Welcome to Our Safe Place</h1>
-        <h3>Enter Password</h3>
         <input type="password" id="password" placeholder="Your special code...">
         <button onclick="checkPassword()">Unlock Love</button>
         <p id="error"></p>
@@ -66,7 +62,6 @@
 <div class="page" id="lovePage">
     <div class="container">
         <h1>For My Babi, Nuriko</h1>
-        <h3>Open it before you go!</h3>
         <div id="envelope" onclick="openLetter()" style="font-size: 100px; cursor: pointer;">💌</div>
         <div id="letterContent" style="display:none; text-align: justify; font-size: 16px;"><p id="typedText" style="line-height: 1.8; white-space: pre-line;"></p></div>
     </div>
@@ -75,8 +70,8 @@
 <div class="page" id="galleryPage">
     <div class="container">
         <h1>Picture to Remember</h1>
-        <div class="gallery-grid">
-             <img src="1.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <div class="gallery-grid" id="galleryGrid"></div>
+        <img src="1.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="2.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="3.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="4.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
@@ -153,7 +148,6 @@
         <img src="76.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="77.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
         <img src="78.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
-            </div>
     </div>
 </div>
 
@@ -170,9 +164,9 @@
 <div class="page" id="clockPage">
     <div class="container">
         <h1>World Time 🕒</h1>
-        <div id="clockDisplay" style="font-size: 1.3rem; line-height: 2.5; font-weight: 600;">
-            <p>🇵🇭 <b>Philippines:</b><br><span id="phTime"></span></p>
-            <p>🇨🇦 <b>Saskatchewan:</b><br><span id="skTime"></span></p>
+        <div style="font-size: 1.3rem; line-height: 2.5; font-weight: 600;">
+            <p>🇵🇭 <b>Philippines (faw):</b><br><span id="phTime" style="color: skyblue;"></span></p>
+            <p>🇨🇦 <b>Saskatchewan (nuriko):</b><br><span id="skTime" style="color: deeppink;"></span></p>
         </div>
     </div>
 </div>
@@ -214,7 +208,7 @@
     }
 
     function openLetter() { 
-          document.getElementById("envelope").style.display = "none"; 
+         document.getElementById("envelope").style.display = "none"; 
         document.getElementById("letterContent").style.display = "block"; 
         const msg = "Hi pre? Babi? Baby? Yettobels? Nuricakes, bro? Boi? HAHAHAHA\n\n" +
                     "Hiii mahal ko, I am writing this letter for you to read before ikaw mag depart sa Philippines. From this day forward I want you to be strong okay?\n\n" +
@@ -232,6 +226,26 @@
         function type() { if (i < msg.length) { t.textContent += msg.charAt(i); i++; setTimeout(type, 10); } } 
         type(); 
     }
+
+    // Auto-populate gallery grid
+    const galleryGrid = document.getElementById("galleryGrid");
+    for(let i = 1; i <= 78; i++) {
+        const img = document.createElement("img");
+        img.src = (i <= 35 || i >= 49 && i <= 49 || i >= 77) ? `${i}.jpg` : `${i}.jpeg`;
+        img.onerror = () => img.style.display = 'none'; // Hide if file missing
+        img.onclick = () => zoomImg(img.src);
+        galleryGrid.appendChild(img);
+    }
+
+    function updateClocks() {
+        document.getElementById('phTime').innerText = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+        document.getElementById('skTime').innerText = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Regina', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    }
+    setInterval(updateClocks, 1000);
+    updateClocks();
+
+    function saveTimerData() {} 
+    function resetTimer() { document.getElementById("timerDisplay").innerText = "Timer reset."; }
 </script>
 </body>
 </html>
