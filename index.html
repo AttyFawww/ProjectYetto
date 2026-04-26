@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuriko's safe place.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Quicksand', sans-serif; min-height: 100vh; background: linear-gradient(-45deg, #a2dff6, #e0f7fa, #ffdee9, #b3e5fc); background-size: 400% 400%; animation: gradient 15s ease infinite; }
+        @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; gap: 10px; padding: 15px; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .navbar button { background: rgba(255, 255, 255, 0.9); color: #4a90e2; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+        .navbar button:hover { background: #4a90e2; color: white; transform: translateY(-2px); }
+        
+        .page { display: none; min-height: 100vh; padding: 100px 20px 40px; opacity: 0; transition: opacity 0.5s ease; }
+        .container { max-width: 600px; margin: 0 auto; text-align: center; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        input { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #b3e5fc; margin-bottom: 20px; }
+        button { width: 100%; padding: 15px; border-radius: 15px; border: none; background: #87ccef; color: white; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .gallery-grid img { width: 100%; height: 120px; object-fit: cover; border-radius: 15px; cursor: pointer; transition: transform 0.3s ease; }
+        .gallery-grid img:hover { transform: scale(1.05); }
+        
+        #modal { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; cursor: zoom-out; }
+        #modal img { max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+
+<div class="navbar" id="navbar">
+    <button onclick="showPage('lovePage')">💌 Letter</button>
+    <button onclick="showPage('galleryPage')">📸 Gallery</button>
+    <button onclick="showPage('timerPage')">⏳ Timer</button>
+    <button onclick="showPage('clockPage')">🕒 Time</button>
+    <button onclick="showPage('schedulePage')">🗓️ Schedule</button>
+    <button onclick="showPage('reminderPage')">💖 Reminders</button>
+    <button onclick="showPage('messageBoardPage')">💬 Messages</button>
+</div>
+
+<div id="modal" onclick="this.style.display='none'">
+    <img id="modalImg" src="">
+</div>
+
+<div class="page" id="loginPage" style="display:block; opacity:1;">
+    <div class="container">
+        <h1>Welcome to Our Safe Place</h1>
+        <h3>Enter Password</h3>
+        <input type="password" id="password" placeholder="Your special code...">
+        <button onclick="checkPassword()">Unlock Love</button>
+        <p id="error"></p>
+    </div>
+</div>
+
+<div class="page" id="lovePage">
+    <div class="container">
+        <h1>For My Babi, Nuriko</h1>
+        <h3>Open it before you go!</h3>
+        <div id="envelope" onclick="openLetter()" style="font-size: 100px; cursor: pointer;">💌</div>
+        <div id="letterContent" style="display:none; text-align: justify; font-size: 16px;"><p id="typedText" style="line-height: 1.8; white-space: pre-line;"></p></div>
+    </div>
+</div>
+
+<div class="page" id="galleryPage">
+    <div class="container">
+        <h1>Picture to Remember</h1>
+        <div class="gallery-grid">
+        <img src="1.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="2.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="3.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="4.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="5.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="6.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="7.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="8.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="9.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="10.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="11.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="12.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="13.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="14.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="15.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="16.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="17.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="18.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="19.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="20.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="21.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="22.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="23.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="24.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="25.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="26.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="27.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="28.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="29.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="30.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="31.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="32.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="33.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="34.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="35.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="36.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="37.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="38.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="39.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="40.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="41.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="42.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="43.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="44.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="45.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="46.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="47.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="48.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="49.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="50.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="51.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="53.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="54.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="55.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="56.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="57.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="58.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="59.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+        <img src="60.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="61.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="62.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="63.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="64.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="65.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="66.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="67.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="68.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="69.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="70.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="71.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="72.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="73.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="74.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="75.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="76.jpeg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="77.jpg" style="background: #ddd;" onclick="zoomImg(this.src)">
+        <img src="78.jpg" style="background: #ddd;" onclick="zoomImg(this.src)"> 
+            </div>
+    </div>
+</div>
+
+<div class="page" id="timerPage">
+    <div class="container">
+        <h1>Our Countdown ⏳</h1>
+        <input type="text" id="occasionInput" placeholder="What are we counting down to?" oninput="saveTimerData()">
+        <input type="datetime-local" id="targetDateInput" onchange="saveTimerData()">
+        <button onclick="resetTimer()" style="background: #ff8a80;">Reset Timer</button>
+        <div id="timerDisplay" style="font-size: 1.5rem; font-weight: bold; margin-top: 20px; color: #4a90e2; font-variant-numeric: tabular-nums;">
+            Set a date and occasion!
+        </div>
+    </div>
+</div>
+
+<div class="page" id="clockPage">
+    <div class="container">
+        <h1>World Time 🕒</h1>
+        <div id="clockDisplay" style="font-size: 1.3rem; line-height: 2.5; font-weight: 600;">
+            <p>🇵🇭 <b>Philippines (faw):</b><br><span id="phTime" style="color:#4a90e2;"></span></p>
+            <p>🇨🇦 <b>Saskatchewan (Nuriko):</b><br><span id="skTime" style="color:#ff8a80;"></span></p>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="schedulePage">
+    <div class="container">
+        <h1>Our Daily Schedules 🗓️</h1>
+        <div class="padlet-embed" style="border:1px solid rgba(0,0,0,0.1);border-radius:2px;box-sizing:border-box;overflow:hidden;position:relative;width:100%;background:#F4F4F4">
+            <p style="padding:0;margin:0">
+                <iframe src="https://padlet.com/embed/a031gmw4f09az08q" frameborder="0" allow="camera;microphone;geolocation;display-capture;clipboard-write" style="width:100%;height:608px;display:block;padding:0;margin:0"></iframe>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="reminderPage">
+    <div class="container">
+        <h1>Our Shared Reminders 💖</h1>
+        <iframe src="https://padlet.com/embed/5nrebrqhwy7w6itq" width="100%" height="500px" frameborder="0"></iframe>
+    </div>
+</div>
+
+<div class="page" id="messageBoardPage">
+    <div class="container">
+        <h1>Our Message Board 💬</h1>
+        <iframe src="https://padlet.com/embed/e64fdlt6d4wr6oib" width="100%" height="500px" frameborder="0"></iframe>
+    </div>
+</div>
+
+<script>
+    let timerInterval;
+
+    function checkPassword() {
+        if (document.getElementById("password").value === "070815") {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("navbar").style.display = "flex";
+            showPage('lovePage');
+        } else { document.getElementById("error").innerText = "Wrong password 😢"; }
+    }
+    
+    function showPage(id) {
+        if (document.getElementById("navbar").style.display === "none") return;
+        document.querySelectorAll(".page").forEach(p => { p.style.display = "none"; p.style.opacity = "0"; });
+        const target = document.getElementById(id);
+        if(target) { target.style.display = "block"; setTimeout(() => { target.style.opacity = "1"; }, 50); }
+    }
+
+    function zoomImg(src) {
+        if(!src || src.endsWith('/')) return;
+        document.getElementById("modalImg").src = src;
+        document.getElementById("modal").style.display = "flex";
+    }
+
+    // --- CLOCK LOGIC ---
+    function updateClocks() {
+        const ph = new Intl.DateTimeFormat('en-PH', { timeZone: 'Asia/Manila', timeStyle: 'medium' }).format(new Date());
+        const sk = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Regina', timeStyle: 'medium' }).format(new Date());
+        if(document.getElementById("phTime")) {
+            document.getElementById("phTime").innerText = ph;
+            document.getElementById("skTime").innerText = sk;
+        }
+    }
+    setInterval(updateClocks, 1000);
+
+    // --- TIMER LOGIC ---
+    function saveTimerData() { 
+        localStorage.setItem("targetDate", document.getElementById("targetDateInput").value); 
+        localStorage.setItem("occasionName", document.getElementById("occasionInput").value);
+        startTimer(); 
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        localStorage.removeItem("targetDate");
+        localStorage.removeItem("occasionName");
+        document.getElementById("targetDateInput").value = "";
+        document.getElementById("occasionInput").value = "";
+        document.getElementById("timerDisplay").innerText = "Set a date and occasion!";
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        const targetStr = localStorage.getItem("targetDate");
+        const occasion = localStorage.getItem("occasionName") || "Our special day";
+        if (!targetStr) return;
+        timerInterval = setInterval(() => {
+            const target = new Date(targetStr).getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff <= 0) {
+                document.getElementById("timerDisplay").innerText = `${occasion} is here!`;
+                clearInterval(timerInterval);
+                return;
+            }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById("timerDisplay").innerHTML = `<div>${occasion}</div><div style="font-size: 2.5rem;">${d}d ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s</div>`;
+        }, 1000);
+    }
+    
+    window.onload = () => { 
+        if (localStorage.getItem("targetDate")) { 
+            document.getElementById("targetDateInput").value = localStorage.getItem("targetDate");
+            document.getElementById("occasionInput").value = localStorage.getItem("occasionName") || "";
+            startTimer(); 
+        } 
+        updateClocks();
+    };
+
+    function openLetter() { 
+        document.getElementById("envelope").style.display = "none"; 
+        document.getElementById("letterContent").style.display = "block"; 
+        const msg = "Hi pre? Babi? Baby? Yettobels? Nuricakes, bro? Boi? HAHAHAHA\n\n" +
+                    "Hiii mahal ko, I am writing this letter for you to read before ikaw mag depart sa Philippines. From this day forward I want you to be strong okay?\n\n" +
+                    "Nalulungkot parin ako to be honest kase sobrang bigat sa puso ko, pero it doesn't discourage me to pursue what i really want to be.\n\n" +
+                    "We didn't have much time to get closure for each other before ikaw mag depart pero sa loob ng tatlong buwan, ng relationship natin, at sa loob ng walong buwan ng pagkakakilala sa isat isa, hinding hindi ko pinagsisihan na piliin ka sa mga panahon na alam kong mahirap dahil, alam kong parehas tayong unstable, at alam ko sa sarili ko na wlaang kasiguraduhan yung ginawa ko.\n\n" +
+                    "I'm so proud of myself na, nag stay ako at pinili kita, sa mga panahon na alam kong walang tao ang magpapahalaga sayo ng tulad ng ginagawa ko sayo ngayon, I always hope na you wouldn't ruin my trust again sayo, Im starting to heal and reflect from what happened to us before, nagkamali ako at nagkamali karin, hindi ako nagsisi na pagbigyan ulit tong relationship natin na kahit sa oras na yon ay dapat nakong bumitaw, pero sa part na naalala ko kung saan tayo nag simula binigyan ako ng lakas non para piliin ka at ipaglaban muli ang relationship natin.\n\n" +
+                    "Pano bayan? Ito na ang huling pahina na magkasama tayo, at sa pagbukas ng bagong pahina sa librong isinulat natin ito ay magkaiba sa mga nakaraan nating pahina sa librong ito, pero hindi ibig sabihin neto na ito na ang huling pagsasama natin, magkikita pa naman tayo, hindi ngayon, hindi bukas, hindi sa susunod na linggo, buwan, kundi sa susunod na taon.\n\n" +
+                    "Wala ng hatid, sundo, kain tayo, punta ka bahay HAHAHAH sabay tayo punta, life would be so different mahal ko without you beside me, pero this bracelet na you give to me, the watch, necklace that you gave to me, made me feel like you're still here guiding me sa mga kalokohan na ginagawa ko HAHAHAHA sorry sa pagiging pasaway ko mahal.\n\n" +
+                    "I will always keep you updated sa buhay ko here mahal ko and i hope you do the same rin, walang susuko ha? Call me pag you feel homesick and may problema ikaw, im always here listening to you.\n\n" +
+                    "Iloveyousoomuch mahal ko, wala na talaga akong masabi sa totoo lang kase hindi ako ganon kagaling mga sulat ng mga ganto, pero hindi ko alam bakit pagdating sayo, nailalabas ko kung ano talaga yung nararamdaman ko, pagbutihin mo don mahal ko ha, Im always proud of you, \"Ill see you in the aisle\" Iloveyousoomuch mahal ko!\n\n" +
+                    "Love you the most,\nFahudie Tumog. 💕";
+                    
+                    
+        let i = 0; const t = document.getElementById("typedText"); 
+        function type() { if (i < msg.length) { t.textContent += msg.charAt(i); i++; setTimeout(type, 10); } } 
+        type(); 
+    }
+</script>
+</body>
+</html>
